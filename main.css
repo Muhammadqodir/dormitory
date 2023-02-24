@@ -4,6 +4,11 @@
     margin: 20px;
 }
 
+#main_logo_nav {
+    width: 50px;
+    border-radius: 8px;
+}
+
 .check_box {
     display: none;
 }
@@ -65,4 +70,15 @@
     margin-top: 50px;
     margin-bottom: 20px;
     text-align: center;
+    font-size: 12px;
+}
+
+.wm_desc_free {
+    font-size: 10px;
+    color: green;
+}
+
+.wm_desc_booked {
+    font-size: 10px;
+    color: red;
 }

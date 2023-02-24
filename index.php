@@ -35,11 +35,35 @@
 
             <div class="row">
                 <div class="col-md-2 col-3 center">
-                    <input type="checkbox" class="check_box" id="checkbox1">
+                    <input type="checkbox" class="check_box" disabled id="checkbox1">
                     <label for="checkbox1"></label><br>
                     <label for="checkbox1">
                         <div class="wm_title">Машинка №1</div>
-                        <div class="wm_desc">(gfhg)</div>
+                        <div class="wm_desc_booked">(Антонова)</div>
+                        <label>
+                </div>
+                <div class="col-md-2 col-3 center">
+                    <input type="checkbox" class="check_box" id="checkbox2">
+                    <label for="checkbox2"></label><br>
+                    <label for="checkbox2">
+                        <div class="wm_title">Машинка №2</div>
+                        <div class="wm_desc_free">(Свободно)</div>
+                        <label>
+                </div>
+                <div class="col-md-2 col-3 center">
+                    <input type="checkbox" class="check_box" id="checkbox3">
+                    <label for="checkbox3"></label><br>
+                    <label for="checkbox3">
+                        <div class="wm_title">Машинка №3</div>
+                        <div class="wm_desc_free">(Свободно)</div>
+                        <label>
+                </div>
+                <div class="col-md-2 col-3 center">
+                    <input type="checkbox" class="check_box" id="checkbox4">
+                    <label for="checkbox4"></label><br>
+                    <label for="checkbox4">
+                        <div class="wm_title">Машинка №4</div>
+                        <div class="wm_desc_free">(Свободно)</div>
                         <label>
                 </div>
 
@@ -49,12 +73,17 @@
             <input type="email" class="form-control" placeholder="Андрей" id="exampleInputEmail1" aria-describedby="emailHelp">
             <br>
             <label for="exampleInputEmail1" class="form-label">Номер комнаты:</label>
-            <input type="email" class="form-control" placeholder="821" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <input type="tel" class="form-control" placeholder="821" id="exampleInputEmail1" aria-describedby="emailHelp">
             <br>
+            <!-- <label for="exampleInputEmail1" class="form-label">Номер телефона:</label>
+            <input type="tel" class="form-control" placeholder="+7(999)999-99-99" id="phoneNum" aria-describedby="emailHelp">
+            <br> -->
+
             <div style="text-align: center;">
-                <button type="submit" class="btn btn-dark" style="margin: auto;">Забронировать</button>
+                <div id="recaptcha-container"></div><br>
             </div>
         </form>
+        <button class="btn btn-dark" onclick="submitBtn()" style="margin: auto;">Забронировать</button>
 
         <div class="fotter">
             Designed by <a href="https://vk.com/mqodir" target="_blank">Muhammadqodir</a>
@@ -76,10 +105,13 @@
             <button type="button" onclick="phoneAuth();">Send Otp</button>
 
     </form> -->
-    <script src="https://code.jquery.com/jquery-3.6.3.slim.js" integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase.js"></script>
+    <script src="scripts.js" crossorigin="anonymous"></script>
     <script src="firebase_config.js"></script>
     <script>
+        $('#phoneNum').inputmask("+7(999)999-99-99");
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
