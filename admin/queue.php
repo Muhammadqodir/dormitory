@@ -46,11 +46,11 @@ $result = $conn->query($sql);
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href=""><i class="fa-solid fa-gears"></i> Машинки <span class="sr-only">(current)</span></a>
-        </li>
         <li class="nav-item">
-          <a class="nav-link" href="queue.php"><i class="fa-solid fa-list-ul"></i> Очередь <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="index.php"><i class="fa-solid fa-gears"></i> Машинки <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href=""><i class="fa-solid fa-list-ul"></i> Очередь <span class="sr-only">(current)</span></a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0" action="log_out.php">
@@ -65,7 +65,7 @@ $result = $conn->query($sql);
     <div class="row">
       <div class="col-6">
         <h3>
-          <i class="fa-solid fa-gears"></i> Настройки машинок
+        <i class="fa-solid fa-list-ul"></i> Очередь
         </h3>
       </div>
       <div class="col-6" style="text-align: right;">
@@ -76,10 +76,10 @@ $result = $conn->query($sql);
     <table class="table table-hover table-bordered">
       <thead>
         <tr>
-          <th scope="col" width="70">ID</th>
-          <th scope="col">Название</th>
-          <th scope="col">Статус</th>
-          <th scope="col" width="50">Действия</th>
+          <th scope="col" width="50">ID</th>
+          <th scope="col">Машинка</th>
+          <th scope="col">Занял(Имя)</th>
+          <th scope="col" style="width: 150px;">Действия</th>
         </tr>
       </thead>
       <tbody>
@@ -88,7 +88,7 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
-    echo("<tr><th scope='row'>".$row["id"]."</th> <td>".$row["name"]."</td><td><span class='badge badge-success'>".$row["status"]."</span></td><td align='center'><a href='remove_machine.php?id=".$row["id"]."' class='btn btn-danger'><i class='fa-solid fa-trash-can'></i></a></td></tr>");
+    echo("<tr><th scope='row'>".$row["id"]."</th> <td>".$row["name"]."</td><td>".$row["additional"]."</td><td><a href='remove_machine.php?id=".$row["id"]."' class='btn btn-warning'>Снять бронь</a></td></tr>");
   }
 } else {
   echo "0 results";

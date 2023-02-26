@@ -21,7 +21,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "INSERT INTO `machines` (`id`, `name`, `status`, `additional`) VALUES (NULL, '$machine_name', 'Работает', '');";
+$sql = "INSERT INTO `machines` (`id`, `name`, `status`, `additional`) VALUES (NULL, '$machine_name', 'Работает', 'Свободно');";
 $result = $conn->query($sql);
 
 $conn->close();

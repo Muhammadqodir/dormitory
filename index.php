@@ -1,3 +1,26 @@
+<?php
+$servername = "localhost";
+$username = "u1635882_dormito";
+$password = "kJ4yL9nO8ioF8cI5";
+$dbname = "u1635882_dormitory";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// $sql = "INSERT INTO `machines` (`id`, `name`, `status`, `additional`) VALUES (NULL, 'Machine2', 'active', 'test');";
+// $result = $conn->query($sql);
+
+$sql = "SELECT * FROM `machines`";
+$result = $conn->query($sql);
+
+$booking_for = file_get_contents("booking_for.txt");
+$time = "19:00";
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -11,12 +34,14 @@
 
 <body>
 
-
     <div class="container" style="text-align: center;">
         <img src="res/logo.png" id="main_logo">
         <h3>WM-Booking</h3>
         <p>Система бронирования стиральных машинок для общежитий</p>
+        <?php if($booking_for != "closed") : ?>
 
+        <h5 style="color: red;">Запись на: <?php echo $booking_for ?></h5>
+            
         <form style="text-align: left;">
             <label class="form-label">Выберите время:</label>
 
@@ -24,7 +49,7 @@
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
                 <label class="btn btn-outline-dark" for="btnradio1">19:00</label>
 
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                <input type="radio" class="btn-check" name="btnradio" checked id="btnradio2" autocomplete="off">
                 <label class="btn btn-outline-dark" for="btnradio2">19:40</label>
 
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
@@ -34,46 +59,49 @@
             <label class="form-label">Выберите машинку:</label>
 
             <div class="row">
-                <div class="col-md-2 col-3 center">
-                    <input type="checkbox" class="check_box" disabled id="checkbox1">
-                    <label for="checkbox1"></label><br>
-                    <label for="checkbox1">
-                        <div class="wm_title">Машинка №1</div>
-                        <div class="wm_desc_booked">(Антонова)</div>
-                        <label>
-                </div>
-                <div class="col-md-2 col-3 center">
-                    <input type="checkbox" class="check_box" id="checkbox2">
-                    <label for="checkbox2"></label><br>
-                    <label for="checkbox2">
-                        <div class="wm_title">Машинка №2</div>
-                        <div class="wm_desc_free">(Свободно)</div>
-                        <label>
-                </div>
-                <div class="col-md-2 col-3 center">
-                    <input type="checkbox" class="check_box" id="checkbox3">
-                    <label for="checkbox3"></label><br>
-                    <label for="checkbox3">
-                        <div class="wm_title">Машинка №3</div>
-                        <div class="wm_desc_free">(Свободно)</div>
-                        <label>
-                </div>
-                <div class="col-md-2 col-3 center">
-                    <input type="checkbox" class="check_box" id="checkbox4">
-                    <label for="checkbox4"></label><br>
-                    <label for="checkbox4">
-                        <div class="wm_title">Машинка №4</div>
-                        <div class="wm_desc_free">(Свободно)</div>
-                        <label>
-                </div>
+
+<?php
+
+if ($result->num_rows > 0) {
+  // output data of each row
+  while($row = $result->fetch_assoc()) {
+
+    $availability = "Свободно";
+
+
+    $sql = "SELECT * FROM `list` WHERE `date`='$booking_for' AND `time`='$time'";
+    // echo $sql;
+    $queue = $conn->query($sql);
+
+    if ($queue->num_rows > 0) {
+        $q = $result->fetch_assoc();
+        $availability = $q["name"];
+    }
+    
+    $machine = '
+    <div class="col-md-2 col-3 center">
+    <input onchange="machineSelected(this, \''.$row["name"].'\')" type="checkbox" class="check_box" id="checkbox'.$row["id"].'">
+    <label for="checkbox'.$row["id"].'"></label><br>
+    <label for="checkbox'.$row["id"].'">
+        <div class="wm_title">'.$row["name"].'</div>
+        <div class="wm_desc">('.$availability.')</div>
+        <label>
+    </div>';
+
+    echo $machine;
+  }
+} else {
+  echo "0 results";
+}
+?>
 
             </div>
             <br>
-            <label for="exampleInputEmail1" class="form-label">Ваше имя:</label>
-            <input type="email" class="form-control" placeholder="Андрей" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <label for="name" class="form-label">Ваше имя:</label>
+            <input type="text" class="form-control" placeholder="Андрей" id="name">
             <br>
-            <label for="exampleInputEmail1" class="form-label">Номер комнаты:</label>
-            <input type="tel" class="form-control" placeholder="821" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <label for="room" class="form-label">Номер комнаты:</label>
+            <input type="tel" class="form-control" placeholder="821" id="room">
             <br>
             <!-- <label for="exampleInputEmail1" class="form-label">Номер телефона:</label>
             <input type="tel" class="form-control" placeholder="+7(999)999-99-99" id="phoneNum" aria-describedby="emailHelp">
@@ -84,6 +112,10 @@
             </div>
         </form>
         <button class="btn btn-dark" onclick="submitBtn()" style="margin: auto;">Забронировать</button>
+        <?php else : ?>
+            <br>
+        <h5 style="color: red;">Запись закрыта</h5>
+        <?php endif; ?>
 
         <div class="fotter">
             Designed by <a href="https://vk.com/mqodir" target="_blank">Muhammadqodir</a>
@@ -105,6 +137,10 @@
             <button type="button" onclick="phoneAuth();">Send Otp</button>
 
     </form> -->
+
+    <script>
+        var selected_time = "<?php echo $time ?>";
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase.js"></script>
@@ -122,3 +158,6 @@
 </body>
 
 </html>
+<?php
+$conn->close();
+?>
