@@ -2,22 +2,58 @@ function submitBtn() {
     console.log(getCookie("cookie_name"));
     if (getCookie("cookie_name") != "cookie_value") {
         setCookie();
-        var name = $("#name").val();
-        var room = $("#room").val();
-        var data = {
-            "name": name,
-            "room": room,
-            "time": selected_time,
-            "machines": JSON.stringify(selected)
+        var data = getData();
+        if (validateData(data)) {
+            sendToServer(data);
+        } else {
+            alert("Заполните все поля!");
         }
-        console.log(data);
     } else {
-        alert("already booked");
+        alert("Вы уже бронировали ранее");
     }
 }
 
+function sendToServer(data) {
+    // var data = new FormData();
+    // data.append('name', data["name"]);
+    // data.append('room', data["room"]);
+    // data.append('time', data["time"]);
+    // data.append('machines', data["machines"]);
+
+    // var xhr = new XMLHttpRequest();
+    // xhr.open('POST', '', true);
+    // xhr.onload = function() {
+    //     // do something to response
+    //     console.log(this.responseText);
+    // };
+    // xhr.send(data);
+    var url = "https://abduvoitov.uz/dormitory/add_book.php?name=" + data["name"] + "&room=" + data["name"] + "&time=" + data["time"] + "&machines=" + data["machines"];
+    var encoded = encodeURI(url);
+    location.href = encoded;
+}
+
+function validateData(data) {
+    var machines = JSON.parse(data["machines"]);
+    if (data["name"] != "" && data["room"] != "" && machines.length != 0 && machines.length <= 2) {
+        return true;
+    }
+    return false;
+}
+
+function getData() {
+    var name = $("#name").val();
+    var room = $("#room").val();
+    var data = {
+        "name": name,
+        "room": room,
+        "time": selected_time,
+        "machines": JSON.stringify(selected)
+    }
+    return data;
+}
+
 function setCookie() {
-    document.cookie = 'cookie_name=cookie_value; max-age=20; path=/';
+    document.cookie = 'cookie_name=cookie_value; max-age=3600; path=/';
 }
 
 function getCookie(name) {

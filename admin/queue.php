@@ -20,8 +20,9 @@ if ($conn->connect_error) {
 
 // $sql = "INSERT INTO `machines` (`id`, `name`, `status`, `additional`) VALUES (NULL, 'Machine2', 'active', 'test');";
 // $result = $conn->query($sql);
-
-$sql = "SELECT * FROM `machines`";
+$date_book = file_get_contents("../booking_for.txt");
+// echo $date_book;
+$sql = "SELECT * FROM `list` WHERE `date` = '$date_book' ORDER BY `time` ASC";
 $result = $conn->query($sql);
 ?>
 <!doctype html>
@@ -69,16 +70,19 @@ $result = $conn->query($sql);
         </h3>
       </div>
       <div class="col-6" style="text-align: right;">
-        <button class="btn btn-success my-2 my-sm-0" data-toggle="modal" data-target="#exampleModalCenter" type="submit"><i class="fa-solid fa-plus"></i> Add</button>
+        <button class="btn btn-success my-2 my-sm-0" data-toggle="modal" data-target="#exampleModalCenter" type="submit"><i class="fa-regular fa-calendar-days"></i> Изменить дату</button>
       </div>
     </div>
     <br>
+    <?php echo "Запись открыта на <span class=\"badge badge-pill badge-success\">".$date_book."</span>" ?><br><br>
     <table class="table table-hover table-bordered">
       <thead>
         <tr>
           <th scope="col" width="50">ID</th>
-          <th scope="col">Машинка</th>
+          <th scope="col">Время брони</th>
           <th scope="col">Занял(Имя)</th>
+          <th scope="col">Машинка</th>
+          <th scope="col">Время</th>
           <th scope="col" style="width: 150px;">Действия</th>
         </tr>
       </thead>
@@ -88,7 +92,10 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
-    echo("<tr><th scope='row'>".$row["id"]."</th> <td>".$row["name"]."</td><td>".$row["additional"]."</td><td><a href='remove_machine.php?id=".$row["id"]."' class='btn btn-warning'>Снять бронь</a></td></tr>");
+    $machines = str_replace("\",\"", "<br>", $row["machine_nums"]);
+    $machines = str_replace("[\"", "", $machines);
+    $machines = str_replace("\"]", "", $machines);
+    echo("<tr><th scope='row'>".$row["id"]."</th> <td>".$row["date_reg"]."</td> <td>".$row["name"]."</td><td>".$machines."</td><td>".$row["time"]."</td><td><a href='remove_book.php?id=".$row["id"]."' class='btn btn-warning'>Снять бронь</a></td></tr>");
   }
 } else {
   echo "0 results";
@@ -104,21 +111,21 @@ if ($result->num_rows > 0) {
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Добавить машинку</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Открыть запись</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label for="exampleInputEmail1">Название машинки</label>
-          <input type="text" class="form-control" id="machine_name" placeholder="Название">
+          <label for="exampleInputEmail1">Дата</label>
+          <input type="date" class="form-control" id="machine_name" placeholder="Название">
           <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-        <button type="button" onclick="addMachine()" class="btn btn-success">Добавить</button>
+        <button type="button" onclick="addMachine()" class="btn btn-success">Открыть</button>
       </div>
     </div>
   </div>
@@ -134,7 +141,7 @@ if ($result->num_rows > 0) {
   <script>
     function addMachine(){
       var name = $("#machine_name").val();
-      window.location.href = encodeURI('https://abduvoitov.uz/dormitory/admin/add_machine.php?name='+name);
+      window.location.href = encodeURI('https://abduvoitov.uz/dormitory/admin/open_booking.php?date='+name);
     }
   </script>
 </body>

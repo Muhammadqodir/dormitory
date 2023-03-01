@@ -21,7 +21,7 @@ if ($conn->connect_error) {
 // $sql = "INSERT INTO `machines` (`id`, `name`, `status`, `additional`) VALUES (NULL, 'Machine2', 'active', 'test');";
 // $result = $conn->query($sql);
 
-$sql = "SELECT * FROM `machines`";
+$sql = "SELECT * FROM `machines` ORDER BY ABS(name)";
 $result = $conn->query($sql);
 ?>
 <!doctype html>

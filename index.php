@@ -14,7 +14,8 @@ if ($conn->connect_error) {
 // $sql = "INSERT INTO `machines` (`id`, `name`, `status`, `additional`) VALUES (NULL, 'Machine2', 'active', 'test');";
 // $result = $conn->query($sql);
 
-$sql = "SELECT * FROM `machines`";
+
+$sql = "SELECT * FROM `machines` ORDER BY ABS(name)";
 $result = $conn->query($sql);
 
 $booking_for = file_get_contents("booking_for.txt");
@@ -47,13 +48,13 @@ $time = "19:00";
 
             <div class="btn-group" role="group" style="width: 100%;" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                <label class="btn btn-outline-dark" for="btnradio1">19:00</label>
+                <a href="index.php" class="btn btn-outline-dark">19:00</a>
 
-                <input type="radio" class="btn-check" name="btnradio" checked id="btnradio2" autocomplete="off">
-                <label class="btn btn-outline-dark" for="btnradio2">19:40</label>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                <a href="1940.php" class="btn btn-outline-dark">19:40</a>
 
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                <label class="btn btn-outline-dark" for="btnradio3">20:20</label>
+                <a href="2020.php" class="btn btn-outline-dark">20:20</a>
             </div>
             <br><br>
             <label class="form-label">Выберите машинку:</label>
@@ -61,30 +62,37 @@ $time = "19:00";
             <div class="row">
 
 <?php
-
+$free_machines = 0;
 if ($result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
 
     $availability = "Свободно";
 
-
-    $sql = "SELECT * FROM `list` WHERE `date`='$booking_for' AND `time`='$time'";
+    // $sql = "SELECT * FROM `list` WHERE `date`='$booking_for' AND `time`='$time' AND CHARINDEX('".$row["name"]."', `machine_nums`) > 0";
+    // echo $sql;
+    $sql = "SELECT * FROM `list` WHERE `date`='$booking_for' AND `time`='$time' AND `machine_nums` LIKE '%".$row["name"]."\"%'";
     // echo $sql;
     $queue = $conn->query($sql);
 
     if ($queue->num_rows > 0) {
-        $q = $result->fetch_assoc();
-        $availability = $q["name"];
+        $row_book = $queue->fetch_assoc();
+        $availability = $row_book["name"];
     }
-    
+    $disabled = "disabled";
+    $desc = "wm_desc_booked";
+    if($availability == "Свободно"){
+        $disabled = "";
+        $desc = "wm_desc";
+        $free_machines++;
+    }
     $machine = '
     <div class="col-md-2 col-3 center">
-    <input onchange="machineSelected(this, \''.$row["name"].'\')" type="checkbox" class="check_box" id="checkbox'.$row["id"].'">
+    <input onchange="machineSelected(this, \''.$row["name"].'\')" type="checkbox" class="check_box"'.$disabled.' id="checkbox'.$row["id"].'">
     <label for="checkbox'.$row["id"].'"></label><br>
     <label for="checkbox'.$row["id"].'">
         <div class="wm_title">'.$row["name"].'</div>
-        <div class="wm_desc">('.$availability.')</div>
+        <div class="'.$desc.'">('.$availability.')</div>
         <label>
     </div>';
 
@@ -96,8 +104,9 @@ if ($result->num_rows > 0) {
 ?>
 
             </div>
+            <?php echo "<div style=\"text-align: center; font-weight: bold;\"> Свободных машинок: ".$free_machines . "шт</div>" ?>
             <br>
-            <label for="name" class="form-label">Ваше имя:</label>
+            <label for="name" class="form-label">Ваше имя и фималия:</label>
             <input type="text" class="form-control" placeholder="Андрей" id="name">
             <br>
             <label for="room" class="form-label">Номер комнаты:</label>
