@@ -54,6 +54,7 @@ $result = $conn->query($sql);
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0" action="log_out.php">
+        <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=https://abduvoitov.uz/dormitory/qrLogin/login.php&choe=UTF-8" height="100" /> 
         <button class="btn btn-outline-danger my-2 my-sm-0"><i class="fa-solid fa-right-from-bracket"></i>  Logout</button>
       </form>
     </div>
