@@ -18,7 +18,7 @@ $sql = "SELECT * FROM `machines` ORDER BY ABS(name)";
 $result = $conn->query($sql);
 
 $booking_for = file_get_contents("booking_for.txt");
-$time = "20:20";
+$time = "21:00";
 
 ?>
 <!DOCTYPE html>
@@ -52,12 +52,11 @@ $time = "20:20";
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
                 <a href="1940.php" class="btn btn-outline-dark">19:40</a>
 
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" checked>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
                 <a href="2020.php" class="btn btn-outline-dark">20:20</a>
 
-
-           <!--     <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
-                <a href="2100.php" class="btn btn-outline-dark">21:00</a> -->
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" checked>
+                <a href="2100.php" class="btn btn-outline-dark">21:00</a>
 
             </div>
             <br><br>

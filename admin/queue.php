@@ -81,6 +81,7 @@ $result = $conn->query($sql);
           <th scope="col" width="50">ID</th>
           <th scope="col">Время брони</th>
           <th scope="col">Занял(Имя)</th>
+          <th scope="col">Комната</th>
           <th scope="col">Машинка</th>
           <th scope="col">Время</th>
           <th scope="col" style="width: 150px;">Действия</th>
@@ -95,7 +96,8 @@ if ($result->num_rows > 0) {
     $machines = str_replace("\",\"", "<br>", $row["machine_nums"]);
     $machines = str_replace("[\"", "", $machines);
     $machines = str_replace("\"]", "", $machines);
-    echo("<tr><th scope='row'>".$row["id"]."</th> <td>".$row["date_reg"]."</td> <td>".$row["name"]."</td><td>".$machines."</td><td>".$row["time"]."</td><td><a href='remove_book.php?id=".$row["id"]."' class='btn btn-warning'>Снять бронь</a></td></tr>");
+    // print_r($row);
+    echo("<tr><th scope='row'>".$row["id"]."</th> <td>".$row["date_reg"]."</td> <td>".$row["name"]."</td><td>".$row["room_num"]."</td><td>".$machines."</td><td>".$row["time"]."</td><td><a href='remove_book.php?id=".$row["id"]."' class='btn btn-warning'>Снять бронь</a></td></tr>");
   }
 } else {
   echo "0 results";

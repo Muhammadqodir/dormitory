@@ -1,0 +1,29 @@
+{
+    "coords": {
+        "speed_accuracy": 0.0,
+        "speed": 33.48,
+        "longitude": -122.05063996,
+        "ellipsoidal_altitude": 0.0,
+        "floor": 0,
+        "heading_accuracy": 0.0,
+        "latitude": 37.33360693,
+        "accuracy": 5.0,
+        "altitude_accuracy": -1.0,
+        "altitude": 0.0,
+        "heading": 255.59
+    },
+    "extras": {},
+    "mock": true,
+    "is_moving": true,
+    "odometer": 7579.0,
+    "uuid": "E3AB88CF-561B-444B-BC49-E1FFEC1992C1",
+    "activity": {
+        "type": "unknown",
+        "confidence": 100
+    },
+    "battery": {
+        "level": 50,
+        "is_charging": false
+    },
+    "timestamp": "2023-05-06T13: 21: 12.319Z"
+}

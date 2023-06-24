@@ -27,7 +27,7 @@ function sendToServer(data) {
     //     console.log(this.responseText);
     // };
     // xhr.send(data);
-    var url = "https://abduvoitov.uz/dormitory/add_book.php?name=" + data["name"] + "&room=" + data["name"] + "&time=" + data["time"] + "&machines=" + data["machines"];
+    var url = "https://abduvoitov.uz/dormitory/add_book.php?name=" + data["name"] + "&room=" + data["room"] + "&time=" + data["time"] + "&machines=" + data["machines"];
     var encoded = encodeURI(url);
     location.href = encoded;
 }

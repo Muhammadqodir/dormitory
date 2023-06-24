@@ -110,7 +110,7 @@ if ($result->num_rows > 0) {
             <input type="text" class="form-control" placeholder="Андрей" id="name">
             <br>
             <label for="room" class="form-label">Номер комнаты:</label>
-            <input type="tel" class="form-control" placeholder="821" id="room">
+            <input type="tel" class="form-control" placeholder="821" id="room" name="room">
             <br>
             <!-- <label for="exampleInputEmail1" class="form-label">Номер телефона:</label>
             <input type="tel" class="form-control" placeholder="+7(999)999-99-99" id="phoneNum" aria-describedby="emailHelp">
